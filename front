@@ -1,0 +1,161 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Salvar Usuário</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #333;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            background-color: red;
+            padding: 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .header h1 {
+            font-size: 1.2em;
+            margin-left: 10px;
+        }
+
+        .back-button {
+            font-size: 1.2em;
+            color: white;
+            text-decoration: none;
+        }
+
+        .form-group {
+            margin: 20px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #333;
+            color: white;
+        }
+
+        .btn-avancar {
+            display: block;
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: red;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="#" class="back-button">&#x2190;</a>
+            <h1>Profissionais da Academia</h1>
+        </div>
+        <form id="usuarioForm">
+            <div class="form-group">
+                <label for="nome">Nome dos profissionais</label>
+                <input type="text" id="nome" placeholder="Insira o nome dos profissionais" required>
+            </div>
+            <div class="form-group">
+                <label for="certificados">Certificados dos profissionais</label>
+                <input type="text" id="certificados" placeholder="Insira os certificados obtidos">
+            </div>
+            <div class="form-group">
+                <label for="cpf">CPF dos profissionais</label>
+                <input type="text" id="cpf" placeholder="Insira o CPF dos profissionais" required>
+            </div>
+            <div class="form-group">
+                <label for="licenca">Licença para ensinar</label>
+                <input type="text" id="licenca" placeholder="Insira o número de licença para lecionar" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Insira o email" required>
+            </div>
+            <button type="submit" class="btn-avancar">Avançar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('usuarioForm').addEventListener('submit', function (event) {
+            event.preventDefault(); 
+
+            const nome = document.getElementById('nome').value;
+            const certificados = document.getElementById('certificados').value;
+            const cpf = document.getElementById('cpf').value;
+            const licenca = document.getElementById('licenca').value;
+            const email = document.getElementById('email').value;
+
+           
+            const usuario = {
+                nome: nome,
+                certificados: certificados,
+                cpf: cpf,
+                licenca: licenca,
+                email: email
+            };
+
+            // Fazer a requisição POST
+            fetch('http://localhost:8090/salvarProfissional', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(usuario),
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Resposta do servidor:', data);
+                    alert("Dados enviados com sucesso!");
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert("Erro ao enviar os dados. Tente novamente.");
+                });
+        });
+    </script>
+</body>
+
+</html>
